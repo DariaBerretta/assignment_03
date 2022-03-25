@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<launch>
+    <node name="option3" pkg="assignment_3" type="teleopContrNode.py"/>
+    <remap from="cmd_vel" to="remap_cmd_vel" />
+
+    <node name="teleop_twist_keyboard" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen" />
+
+</launch>

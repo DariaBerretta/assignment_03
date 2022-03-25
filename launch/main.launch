@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+	<node name="userInteractionNode" pkg="assignment_3" type="userInteractionNode.py" output="screen" launch-prefix="xterm -e" />
+	<node name="teleopNode" pkg="assignment_3" type="teleopNode.py" output="screen" launch-prefix="xterm -e" />
+	<node name="reachCoordinateNode" pkg="assignment_3" type="reachCoordinateNode.py" />
+</launch>
