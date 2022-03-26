@@ -17,7 +17,7 @@ sudo apt-get install xterm
 Before start check if the .py files are executable.  
 In orther to use the software run the command:
 ```
-rroslaunch final_assignment simulation_gmapping.launch
+roslaunch final_assignment simulation_gmapping.launch
 ```
 ```
 roslaunch final_assignment move_base.launch
