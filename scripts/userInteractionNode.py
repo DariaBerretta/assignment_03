@@ -4,9 +4,14 @@
 	:platform: Unix
 	:synopsis: Python module for the user Interface
 	
-.. moduleauthor:: Daria Berretta daria.berretta@gmail.com
+.. moduleauthor:: Daria Berretta <daria.berretta@gmail.com>
 
 This node implements an user interface
+
+Client to Service:
+	\reachCoordinateService
+	\keyboardService
+
 
 """
 

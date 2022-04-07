@@ -4,7 +4,7 @@
 	:platform: Unix
 	:synopsis: Python module that the implement the server for the 'reachCoordinateService'
 	
-.. moduleauthor:: Daria Berretta <daria.berretta@gmail.com>
+.. moduleauthor:: Daria Berretta daria.berretta@gmail.com
 
 This node implements the server for the 'reachCoordinateService'
 
@@ -36,7 +36,6 @@ angular = Vector3(0, 0, 0)
 
 repost = Twist(linear, angular)
 
-
 def compute_min_dist(ranges):
 	#Compute the min distance of the robot from the walls
     #first element -> right corner
@@ -65,23 +64,29 @@ def callback_scan(data):
 	walls[1] = ( distances[1] < min_dist )
 	walls[2] = ( distances[2] < min_dist )
 	
-	if walls[0]:
-		#cannot turn right
-		if repost.angular.z <0:
-			#print("cannot turn right")
-			repost.angular.z = 0
-					
-	if walls[1]:
-		if repost.linear.x > 0:
-			#print("cannot go ahead")
-			repost.linear.x = 0
+	#take the value inside the param "selection_param" 
+	#to know if the user want to use some "warnings"
+	#to drive the robot.
+	toggle = rospy.get_param('/selection_param')
 	
-	if walls[2]:
-		#cannot turn left
-		if repost.angular.z > 0:
-			#print("cannot go ahead")
-			repost.angular.z = 0 
-	
+	if toggle:
+		if walls[0]:
+			#cannot turn right
+			if repost.angular.z <0:
+				#print("cannot turn right")
+				repost.angular.z = 0
+						
+		if walls[1]:
+			if repost.linear.x > 0:
+				#print("cannot go ahead")
+				repost.linear.x = 0
+		
+		if walls[2]:
+			#cannot turn left
+			if repost.angular.z > 0:
+				#print("cannot go ahead")
+				repost.angular.z = 0 
+				
 	#pubblic on topic cmd_vel
 	pub.publish(repost)
 
@@ -95,12 +100,10 @@ def callback_remap(data):
 	"""
 	
 	#copy remap_cmd_vel on repost -> ready to be:
-	#modified by the controller or
-    #reposted as it was
-    global repost
-    repost = data
+	#modified by the controller or reposted as it was
+	global repost
+	repost = data
     
-
 def keyboard_remap():
 	"""
 	Creates two different subscriber to two different topic ``/remap_cmd_vel`` 

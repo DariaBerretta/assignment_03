@@ -4,9 +4,12 @@
 	:platform: Unix
 	:synopsis: Python module that the implement the server for the 'keyboardService'
 	
-.. moduleauthor:: Daria Berretta daria.berretta@gmail.com
+.. moduleauthor:: Daria Berretta <daria.berretta@gmail.com>
 
 This node implements the server for the 'keyboardService'
+
+Service:
+	/keyboardService
 
 """
 
