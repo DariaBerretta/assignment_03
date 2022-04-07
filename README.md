@@ -26,6 +26,10 @@ roslaunch final_assignment move_base.launch
 roslaunch assignment_3 main.launch
 ```
 
+## Documentation
+Documentation for the code of the assignment is avaiable at this link:
+[Documentation](https://dariaberretta.github.io/assignment_03/)
+
 ## Workflow of the code
 The main node of this software is the 'userInteractionNode'. Through it the user chooses which of the three actions performs.
 The 'userInteractionNode' implements two different client to two different service.  
