@@ -84,7 +84,17 @@
 </div>
 <div class="section" id="module-scripts.userInteractionNode">
 <span id="user-interaction-node"></span><h1>User Interaction Node<a class="headerlink" href="#module-scripts.userInteractionNode" title="Permalink to this headline"></a></h1>
-<span class="target" id="module-userInteractionNode"></span><p>This node implements an user interface</p>
+<span class="target" id="module-userInteractionNode"></span><p>This node handles the interaction with the user.
+It uses the function <code class="docutils literal notranslate"><span class="pre">calluser</span></code> to ask to the user which action he would perform.</p>
+<p>For each option:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>opt 1 -&gt; reach coordinates</p></li>
+<li><p>opt 2 -&gt; drive the robot without help</p></li>
+<li><p>opt 3 -&gt; drive the robot with some help</p></li>
+</ul>
+</div></blockquote>
+<p>exist a specific function in which is defined a client to the correct service.</p>
 <dl class="simple">
 <dt>Service:</dt><dd><ul class="simple">
 <li><p>/reachCoordinateService</p></li>
@@ -99,10 +109,19 @@
 <p>Ask to the user what action would complete.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>the option selected by the user</p>
+<dd class="field-odd"><p><dl class="simple">
+<dt>the option selected by the user</dt><dd><ul class="simple">
+<li><p>1 to reach a coordinate</p></li>
+<li><p>2 to drive the robot with the keyboard</p></li>
+<li><p>3 to drive the robot with the keyboard and some assistance</p></li>
+<li><p>0 to exit</p></li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>ans (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a>)</p>
+<dd class="field-even"><p>ans(<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a>)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -110,8 +129,8 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="scripts.userInteractionNode.opt1">
 <span class="sig-prename descclassname"><span class="pre">scripts.userInteractionNode.</span></span><span class="sig-name descname"><span class="pre">opt1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/userInteractionNode.html#opt1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.userInteractionNode.opt1" title="Permalink to this definition"></a></dt>
-<dd><p>Function called when option1 is selected, it define a client for the
-<code class="docutils literal notranslate"><span class="pre">/reachCoordinateService</span></code>.</p>
+<dd><p>The function is called when Option1 is selected, it defines a client
+for the <code class="docutils literal notranslate"><span class="pre">/reachCoordinateService</span></code>.</p>
 <p>It also allows the user to enter the coordinates to reach the desired point.
 Finally, it informs the user about the fulfillment of the goal with
 a printout on the terminal.</p>
@@ -120,14 +139,14 @@ a printout on the terminal.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="scripts.userInteractionNode.opt2">
 <span class="sig-prename descclassname"><span class="pre">scripts.userInteractionNode.</span></span><span class="sig-name descname"><span class="pre">opt2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/userInteractionNode.html#opt2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.userInteractionNode.opt2" title="Permalink to this definition"></a></dt>
-<dd><p>Function called when option2 is selected, it define a client for the
+<dd><p>The function is called when Option2 is selected, it defines a client for the
 <code class="docutils literal notranslate"><span class="pre">/keyboardService</span></code></p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="scripts.userInteractionNode.opt3">
 <span class="sig-prename descclassname"><span class="pre">scripts.userInteractionNode.</span></span><span class="sig-name descname"><span class="pre">opt3</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/userInteractionNode.html#opt3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.userInteractionNode.opt3" title="Permalink to this definition"></a></dt>
-<dd><p>Function called when option3 is selected, it define a client for the
+<dd><p>The function is called when Option3 is selected, it defines a client for the
 <code class="docutils literal notranslate"><span class="pre">/keyboardService</span></code></p>
 </dd></dl>
 
@@ -162,28 +181,37 @@ actions.</p>
 </div>
 <div class="section" id="module-scripts.reachCoordinateNode">
 <span id="reach-coordinate-node"></span><h1>Reach Coordinate Node<a class="headerlink" href="#module-scripts.reachCoordinateNode" title="Permalink to this headline"></a></h1>
-<span class="target" id="module-reachCoordinateNode"></span><p>This node implements the server for the ‘reachCoordinateService’</p>
+<span class="target" id="module-reachCoordinateNode"></span><p>This node implements the server for the “reachCoordinateService”.
+It uses the function “reachCoordinate_handler” to read the request made by the user,
+creates a SimpleCLient to the “MoveBaseAction” and set the specific position goal for the robot.</p>
 <dl class="simple">
-<dt>Service:</dt><dd><p>/reachCoordinateService</p>
+<dt>Implement service:</dt><dd><ul class="simple">
+<li><p>/reachCoordinateService</p></li>
+</ul>
 </dd>
-<dt>ActionClient:</dt><dd><p>/move_base</p>
+<dt>ActionClient:</dt><dd><ul class="simple">
+<li><p>/move_base</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="scripts.reachCoordinateNode.reachCoordinate_handler">
 <span class="sig-prename descclassname"><span class="pre">scripts.reachCoordinateNode.</span></span><span class="sig-name descname"><span class="pre">reachCoordinate_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">req</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/reachCoordinateNode.html#reachCoordinate_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.reachCoordinateNode.reachCoordinate_handler" title="Permalink to this definition"></a></dt>
-<dd><p>This function obtain from the arguments the coordinate to be reached,
-creates a simple client to the <code class="docutils literal notranslate"><span class="pre">MoveBaseAction</span></code>, setup the goal, and
-then wait for the results of the goal: if it is 1 the goal is reached,
-otherwise if it is 0 the goal is not reached.</p>
+<dd><p>The coordinates to be reached by the robot are obtained from the argument of the function.
+Here is created the simple client to the <code class="docutils literal notranslate"><span class="pre">MoveBaseAction</span></code>, the goal is
+set up, and then the function waits for the results of the goal.
+If the variable <code class="docutils literal notranslate"><span class="pre">state_goal</span></code> has a value ‘1’ the goal is reached and
+the function returns ‘1’, otherwise, if it has a value ‘0’ the goal
+is not reached, so it is canceled and the function returns ‘0’.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>req</strong><strong>(</strong><strong>)</strong> – rapresents the (x,y) coordinate that the robot has to reach.</p>
+<dd class="field-odd"><p><strong>req</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – rapresents the (x,y) coordinate that the robot has to reach.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><p>0 if the goal is not reached</p>
-<p>1 if the goal is reached</p>
-</p>
+<dd class="field-even"><p>0 means the goal is not reached, 1 means that goal has been reached.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>state_goal(<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a>)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -191,7 +219,7 @@ otherwise if it is 0 the goal is not reached.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="scripts.reachCoordinateNode.reachCoordinate_server">
 <span class="sig-prename descclassname"><span class="pre">scripts.reachCoordinateNode.</span></span><span class="sig-name descname"><span class="pre">reachCoordinate_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/reachCoordinateNode.html#reachCoordinate_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.reachCoordinateNode.reachCoordinate_server" title="Permalink to this definition"></a></dt>
-<dd><p>Define a server for the <code class="docutils literal notranslate"><span class="pre">reachCoordinateService</span></code></p>
+<dd><p>In this function is simply defined a server for the <code class="docutils literal notranslate"><span class="pre">reachCoordinateService</span></code></p>
 </dd></dl>
 
 </div>

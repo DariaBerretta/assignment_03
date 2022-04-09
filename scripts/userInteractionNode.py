@@ -6,7 +6,16 @@
 	
 .. moduleauthor:: Daria Berretta <daria.berretta@gmail.com>
 
-This node implements an user interface
+This node handles the interaction with the user.
+It uses the function ``calluser`` to ask to the user which action he would perform.
+
+For each option:
+
+	* opt 1 -> reach coordinates
+	* opt 2 -> drive the robot without help
+	* opt 3 -> drive the robot with some help
+
+exist a specific function in which is defined a client to the correct service.
 
 Service:
 	* /reachCoordinateService
@@ -24,7 +33,11 @@ def calluser():
 	Ask to the user what action would complete.
 		
 	Returns:
-			ans (int): the option selected by the user
+			ans(int): the option selected by the user
+						* 1 to reach a coordinate
+						* 2 to drive the robot with the keyboard
+						* 3 to drive the robot with the keyboard and some assistance
+						* 0 to exit
 	
 	"""
 	
@@ -38,8 +51,8 @@ def calluser():
 	
 def opt1():
 	"""
-	Function called when option1 is selected, it define a client for the 
-	``/reachCoordinateService``.
+	The function is called when Option1 is selected, it defines a client
+	for the ``/reachCoordinateService``.
 	
 	It also allows the user to enter the coordinates to reach the desired point.
 	Finally, it informs the user about the fulfillment of the goal with 
@@ -64,23 +77,21 @@ def opt1():
 		
 def opt2():
 	"""
-	Function called when option2 is selected, it define a client for the 
+	The function is called when Option2 is selected, it defines a client for the 
 	``/keyboardService``
 	
 	"""
 	print("Option 2")
-	#define a client for the service keyboardService
 	rospy.wait_for_service("/keyboardService")
 	client = rospy.ServiceProxy("/keyboardService", keyboardService)
 	client(0)
 	
 def opt3():
 	"""
-	Function called when option3 is selected, it define a client for the 
+	The function is called when Option3 is selected, it defines a client for the 
 	``/keyboardService``
 	
 	"""
-	#define a client for the service keyboardService
 	print("Option 3")
 	rospy.wait_for_service("/keyboardService")
 	client = rospy.ServiceProxy("/keyboardService", keyboardService)
@@ -97,7 +108,6 @@ if __name__ == "__main__":
 	
 	#Initialization of the userInteractionNode
 	rospy.init_node('userInteractionNode')
-	
 	
 	while(1):
 		ans = calluser();

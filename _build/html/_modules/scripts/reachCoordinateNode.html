@@ -70,13 +70,15 @@
 <span class="sd">	</span>
 <span class="sd">.. moduleauthor:: Daria Berretta &lt;daria.berretta@gmail.com&gt;</span>
 
-<span class="sd">This node implements the server for the &#39;reachCoordinateService&#39;</span>
+<span class="sd">This node implements the server for the &quot;reachCoordinateService&quot;.</span>
+<span class="sd">It uses the function &quot;reachCoordinate_handler&quot; to read the request made by the user,</span>
+<span class="sd">creates a SimpleCLient to the &quot;MoveBaseAction&quot; and set the specific position goal for the robot.</span>
 
-<span class="sd">Service:</span>
-<span class="sd">	/reachCoordinateService</span>
+<span class="sd">Implement service:</span>
+<span class="sd">	* /reachCoordinateService</span>
 
 <span class="sd">ActionClient:</span>
-<span class="sd">	/move_base</span>
+<span class="sd">	* /move_base</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -89,18 +91,18 @@
 
 <div class="viewcode-block" id="reachCoordinate_handler"><a class="viewcode-back" href="../../index.html#scripts.reachCoordinateNode.reachCoordinate_handler">[docs]</a><span class="k">def</span> <span class="nf">reachCoordinate_handler</span><span class="p">(</span><span class="n">req</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">	This function obtain from the arguments the coordinate to be reached,</span>
-<span class="sd">	creates a simple client to the ``MoveBaseAction``, setup the goal, and</span>
-<span class="sd">	then wait for the results of the goal: if it is 1 the goal is reached, </span>
-<span class="sd">	otherwise if it is 0 the goal is not reached.</span>
+<span class="sd">	The coordinates to be reached by the robot are obtained from the argument of the function.</span>
+<span class="sd">	Here is created the simple client to the ``MoveBaseAction``, the goal is</span>
+<span class="sd">	set up, and then the function waits for the results of the goal.</span>
+<span class="sd">	If the variable ``state_goal`` has a value &#39;1&#39; the goal is reached and</span>
+<span class="sd">	the function returns &#39;1&#39;, otherwise, if it has a value &#39;0&#39; the goal </span>
+<span class="sd">	is not reached, so it is canceled and the function returns &#39;0&#39;.</span>
 <span class="sd">	</span>
 <span class="sd">	Args:</span>
-<span class="sd">		req(): rapresents the (x,y) coordinate that the robot has to reach.</span>
+<span class="sd">		req(float): rapresents the (x,y) coordinate that the robot has to reach.</span>
 <span class="sd">		</span>
 <span class="sd">	Returns:</span>
-<span class="sd">		0 if the goal is not reached</span>
-<span class="sd">		</span>
-<span class="sd">		1 if the goal is reached</span>
+<span class="sd">		state_goal(int): 0 means the goal is not reached, 1 means that goal has been reached.</span>
 <span class="sd">	</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="c1">#Obtain the coordinate to reach</span>
@@ -123,10 +125,8 @@
 	<span class="c1">#wait for the result of the goal</span>
 	<span class="n">state_goal</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">wait_for_result</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">rospy</span><span class="o">.</span><span class="n">Duration</span><span class="p">(</span><span class="mf">50.0</span><span class="p">))</span>
 	<span class="sd">&quot;&quot;&quot;Variable that rapresent the state of the goal.</span>
-<span class="sd">	</span>
-<span class="sd">	1 -&gt; means goal reached</span>
-<span class="sd">	</span>
-<span class="sd">	0 -&gt; means goal not reached, so the goal il cancelled</span>
+<span class="sd">		1 -&gt; means goal reached</span>
+<span class="sd">		0 -&gt; means goal not reached, so the goal il cancelled</span>
 <span class="sd">	</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 	
@@ -135,13 +135,13 @@
 	<span class="c1"># 0 -&gt; means goal not reached, so the goal il cancelled</span>
 	<span class="k">if</span> <span class="ow">not</span> <span class="n">state_goal</span><span class="p">:</span>
 		<span class="n">client</span><span class="o">.</span><span class="n">cancel_goal</span><span class="p">()</span>
-		<span class="k">return</span> <span class="mi">0</span>
+		<span class="k">return</span> <span class="n">state_goal</span>
 
-	<span class="k">return</span> <span class="mi">1</span></div>
+	<span class="k">return</span> <span class="n">state_goal</span></div>
 
 <div class="viewcode-block" id="reachCoordinate_server"><a class="viewcode-back" href="../../index.html#scripts.reachCoordinateNode.reachCoordinate_server">[docs]</a><span class="k">def</span> <span class="nf">reachCoordinate_server</span><span class="p">():</span>
 	<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">	Define a server for the ``reachCoordinateService``</span>
+<span class="sd">	In this function is simply defined a server for the ``reachCoordinateService``</span>
 <span class="sd">	</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="c1">#define a server for the reachCoordinateService</span>
