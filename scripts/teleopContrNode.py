@@ -96,9 +96,9 @@ def callback_remap(data):
 	
 	#copy remap_cmd_vel on repost -> ready to be:
 	#modified by the controller or
-    #reposted as it was
-    global repost
-    repost = data
+	#reposted as it was
+	global repost
+	repost = data
     
 
 def keyboard_remap():

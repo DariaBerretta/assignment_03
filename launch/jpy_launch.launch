@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+	<param name="selection_param" type="int" value="0" /> 
+	<node name="reachCoordinateNode" pkg="assignment_3" type="reachCoordinateNode.py" />
+	<node name="keyboard_remap_node" pkg="assignment_3" type="tcn2.py" />
+</launch>

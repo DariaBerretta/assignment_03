@@ -8,10 +8,9 @@
 
 This node implements an user interface
 
-Client to Service:
-	\reachCoordinateService
-	\keyboardService
-
+Service:
+	* /reachCoordinateService
+	* /keyboardService
 
 """
 
@@ -19,12 +18,13 @@ import rospy
 from assignment_3.srv import *
 
 def calluser():
-	"""
+	"""	
 	Function used to interact with the user.
+		
 	Ask to the user what action would complete.
-	
+		
 	Returns:
-		the option selected by the user
+			ans (int): the option selected by the user
 	
 	"""
 	
@@ -39,7 +39,11 @@ def calluser():
 def opt1():
 	"""
 	Function called when option1 is selected, it define a client for the 
-	``reachCoordinateService``
+	``/reachCoordinateService``.
+	
+	It also allows the user to enter the coordinates to reach the desired point.
+	Finally, it informs the user about the fulfillment of the goal with 
+	a printout on the terminal.
 	
 	"""
 	print("Option 1")
@@ -61,7 +65,7 @@ def opt1():
 def opt2():
 	"""
 	Function called when option2 is selected, it define a client for the 
-	``keyboardService``
+	``/keyboardService``
 	
 	"""
 	print("Option 2")
@@ -73,7 +77,7 @@ def opt2():
 def opt3():
 	"""
 	Function called when option3 is selected, it define a client for the 
-	``keyboardService``
+	``/keyboardService``
 	
 	"""
 	#define a client for the service keyboardService
@@ -84,6 +88,12 @@ def opt3():
 	
 
 if __name__ == "__main__":
+	"""
+	This function initializes the ROS node and call the ``calluser()``
+	function to	choose to send to the robot a position goal or
+	to control the robot.
+	
+	"""
 	
 	#Initialization of the userInteractionNode
 	rospy.init_node('userInteractionNode')
@@ -109,6 +119,5 @@ if __name__ == "__main__":
 			else:
 				print("error")
 		else:
-			print("Invalid input")
-		
+			print("Invalid input")		
 
