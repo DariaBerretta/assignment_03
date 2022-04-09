@@ -68,7 +68,7 @@
 <span class="sd">	:platform: Unix</span>
 <span class="sd">	:synopsis: Python module that the implement the server for the &#39;reachCoordinateService&#39;</span>
 <span class="sd">	</span>
-<span class="sd">.. moduleauthor:: Daria Berretta daria.berretta@gmail.com</span>
+<span class="sd">.. moduleauthor:: Daria Berretta &lt;daria.berretta@gmail.com&gt;</span>
 
 <span class="sd">This node implements the server for the &#39;reachCoordinateService&#39;</span>
 
@@ -132,7 +132,7 @@
 	<span class="k">if</span> <span class="n">walls</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
 		<span class="c1">#cannot turn right</span>
 		<span class="k">if</span> <span class="n">repost</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
-			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cannot turn right&quot;</span><span class="p">)</span>
+			<span class="c1">#print(&quot;cannot turn right&quot;)</span>
 			<span class="n">repost</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
 					
 	<span class="k">if</span> <span class="n">walls</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
@@ -149,13 +149,20 @@
 	<span class="c1">#pubblic on topic cmd_vel</span>
 	<span class="n">pub</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">repost</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">callback_remap</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="c1">#copy remap_cmd_vel on repost -&gt; ready to be:</span>
-    <span class="c1">#modified by the controller or</span>
-    <span class="c1">#reposted as it was</span>
-    <span class="k">global</span> <span class="n">repost</span>
-    <span class="n">repost</span> <span class="o">=</span> <span class="n">data</span>
-
+<div class="viewcode-block" id="callback_remap"><a class="viewcode-back" href="../../index.html#scripts.teleopContrNode.callback_remap">[docs]</a><span class="k">def</span> <span class="nf">callback_remap</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Copy the variable data on the global variable repost</span>
+<span class="sd">	</span>
+<span class="sd">	Args</span>
+<span class="sd">		data(Twist): contains linear and angular velocities</span>
+<span class="sd">		</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	
+	<span class="c1">#copy remap_cmd_vel on repost -&gt; ready to be:</span>
+	<span class="c1">#modified by the controller or</span>
+	<span class="c1">#reposted as it was</span>
+	<span class="k">global</span> <span class="n">repost</span>
+	<span class="n">repost</span> <span class="o">=</span> <span class="n">data</span></div>
     
 
 <div class="viewcode-block" id="keyboard_remap"><a class="viewcode-back" href="../../index.html#scripts.teleopContrNode.keyboard_remap">[docs]</a><span class="k">def</span> <span class="nf">keyboard_remap</span><span class="p">():</span>
