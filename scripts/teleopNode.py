@@ -6,10 +6,10 @@
 	
 .. moduleauthor:: Daria Berretta <daria.berretta@gmail.com>
 
-This node implements the server for the 'keyboardService'
+This node implements the server for the ``keyBoardService``
 
-Service:
-	/keyboardService
+Implemented Service:
+	* ``/keyBoardService``
 
 """
 
@@ -22,10 +22,12 @@ def teleop_handler(req):
 	This function read the request of the user and implement the correct 
 	actions.
 	
+	If ``req.action == 0`` an os call is made to start the ``teleope_twist_keybord``
+	node, otherwise if ``req.action == 1`` an os call is made to launch the 
+	``option3.launch``
+	
 	Args:
-		req (int):	0 -> means that the user want to ride the robot without help
-		
-					1 -> means that the user want to ride the robor with help
+		req(int):0 means that the user want to ride the robot without help, 1 means that the user want to ride the robor with help
 					
 	"""
 	#req.action = 0 -> means that the user want to ride the robot without help
@@ -44,7 +46,7 @@ def teleop_handler(req):
 
 def teleop_server():
 	"""
-	This function crate the server for the ``keyBoardService``
+	This function crates the server for the ``keyBoardService``
 	
 	"""
 	#Creation of the server for the keyboardService

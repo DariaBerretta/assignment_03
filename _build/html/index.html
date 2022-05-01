@@ -97,8 +97,8 @@ It uses the function <code class="docutils literal notranslate"><span class="pre
 <p>exist a specific function in which is defined a client to the correct service.</p>
 <dl class="simple">
 <dt>Service:</dt><dd><ul class="simple">
-<li><p>/reachCoordinateService</p></li>
-<li><p>/keyboardService</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/reachCoordinateService</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/keyboardService</span></code></p></li>
 </ul>
 </dd>
 </dl>
@@ -153,9 +153,11 @@ a printout on the terminal.</p>
 </div>
 <div class="section" id="module-scripts.teleopNode">
 <span id="teleop-node"></span><h1>Teleop Node<a class="headerlink" href="#module-scripts.teleopNode" title="Permalink to this headline"></a></h1>
-<span class="target" id="module-teleopNode"></span><p>This node implements the server for the ‘keyboardService’</p>
+<span class="target" id="module-teleopNode"></span><p>This node implements the server for the <code class="docutils literal notranslate"><span class="pre">keyBoardService</span></code></p>
 <dl class="simple">
-<dt>Service:</dt><dd><p>/keyboardService</p>
+<dt>Implemented Service:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/keyBoardService</span></code></p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py function">
@@ -163,11 +165,12 @@ a printout on the terminal.</p>
 <span class="sig-prename descclassname"><span class="pre">scripts.teleopNode.</span></span><span class="sig-name descname"><span class="pre">teleop_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">req</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/teleopNode.html#teleop_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.teleopNode.teleop_handler" title="Permalink to this definition"></a></dt>
 <dd><p>This function read the request of the user and implement the correct
 actions.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">req.action</span> <span class="pre">==</span> <span class="pre">0</span></code> an os call is made to start the <code class="docutils literal notranslate"><span class="pre">teleope_twist_keybord</span></code>
+node, otherwise if <code class="docutils literal notranslate"><span class="pre">req.action</span> <span class="pre">==</span> <span class="pre">1</span></code> an os call is made to launch the
+<code class="docutils literal notranslate"><span class="pre">option3.launch</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>req</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – <p>0 -&gt; means that the user want to ride the robot without help</p>
-<p>1 -&gt; means that the user want to ride the robor with help</p>
-</p>
+<dd class="field-odd"><p><strong>req</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – 0 means that the user want to ride the robot without help, 1 means that the user want to ride the robor with help</p>
 </dd>
 </dl>
 </dd></dl>
@@ -175,7 +178,7 @@ actions.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="scripts.teleopNode.teleop_server">
 <span class="sig-prename descclassname"><span class="pre">scripts.teleopNode.</span></span><span class="sig-name descname"><span class="pre">teleop_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/teleopNode.html#teleop_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.teleopNode.teleop_server" title="Permalink to this definition"></a></dt>
-<dd><p>This function crate the server for the <code class="docutils literal notranslate"><span class="pre">keyBoardService</span></code></p>
+<dd><p>This function crates the server for the <code class="docutils literal notranslate"><span class="pre">keyBoardService</span></code></p>
 </dd></dl>
 
 </div>
@@ -185,12 +188,12 @@ actions.</p>
 It uses the function “reachCoordinate_handler” to read the request made by the user,
 creates a SimpleCLient to the “MoveBaseAction” and set the specific position goal for the robot.</p>
 <dl class="simple">
-<dt>Implement service:</dt><dd><ul class="simple">
-<li><p>/reachCoordinateService</p></li>
+<dt>Implemented service:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/reachCoordinateService</span></code></p></li>
 </ul>
 </dd>
 <dt>ActionClient:</dt><dd><ul class="simple">
-<li><p>/move_base</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/move_base</span></code></p></li>
 </ul>
 </dd>
 </dl>
@@ -219,13 +222,26 @@ is not reached, so it is canceled and the function returns ‘0’.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="scripts.reachCoordinateNode.reachCoordinate_server">
 <span class="sig-prename descclassname"><span class="pre">scripts.reachCoordinateNode.</span></span><span class="sig-name descname"><span class="pre">reachCoordinate_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/reachCoordinateNode.html#reachCoordinate_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.reachCoordinateNode.reachCoordinate_server" title="Permalink to this definition"></a></dt>
-<dd><p>In this function is simply defined a server for the <code class="docutils literal notranslate"><span class="pre">reachCoordinateService</span></code></p>
+<dd><p>In this function is simply defined a server for the <code class="docutils literal notranslate"><span class="pre">/reachCoordinateService</span></code></p>
 </dd></dl>
 
 </div>
 <div class="section" id="module-scripts.teleopContrNode">
 <span id="teleop-control-node"></span><h1>Teleop Control Node<a class="headerlink" href="#module-scripts.teleopContrNode" title="Permalink to this headline"></a></h1>
-<span class="target" id="module-teleopContrNode"></span><p>This node implements the server for the ‘reachCoordinateService’</p>
+<span class="target" id="module-teleopContrNode"></span><p>This node is used to implement the “assisted driving” of the robot. To do
+that it is necessary to remap the topic <code class="docutils literal notranslate"><span class="pre">/cmd_val</span></code> used by the node
+<code class="docutils literal notranslate"><span class="pre">/teleop_twist_keyboard</span></code> to topic <code class="docutils literal notranslate"><span class="pre">/remap_cmd_vel</span></code>.</p>
+<dl class="simple">
+<dt>Subscribed Topic:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/remap_cmd_val</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/scan</span></code></p></li>
+</ul>
+</dd>
+<dt>Publishing Topic:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/cmd_vel</span></code></p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py data">
 <dt class="sig sig-object py" id="scripts.teleopContrNode.angular">
 <span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">angular</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">x:</span> <span class="pre">0</span> <span class="pre">y:</span> <span class="pre">0</span> <span class="pre">z:</span> <span class="pre">0</span></em><a class="headerlink" href="#scripts.teleopContrNode.angular" title="Permalink to this definition"></a></dt>
@@ -236,8 +252,47 @@ is not reached, so it is canceled and the function returns ‘0’.</p>
 <dt class="sig sig-object py" id="scripts.teleopContrNode.callback_remap">
 <span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">callback_remap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/teleopContrNode.html#callback_remap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.teleopContrNode.callback_remap" title="Permalink to this definition"></a></dt>
 <dd><p>Copy the variable data on the global variable repost</p>
-<dl class="simple">
-<dt>Args</dt><dd><p>data(Twist): contains linear and angular velocities</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Twist</em>) – contains linear and angular velocities</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.teleopContrNode.callback_scan">
+<span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">callback_scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/teleopContrNode.html#callback_scan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.teleopContrNode.callback_scan" title="Permalink to this definition"></a></dt>
+<dd><p>In this function, the variable repost is redefined if the robot has
+to avoid a wall.
+To do that is checked if all elements of the vector distance are &lt;
+of the variable min_dist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Twist</em>) – contains linear and angular velocities</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.teleopContrNode.compute_min_dist">
+<span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">compute_min_dist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ranges</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/teleopContrNode.html#compute_min_dist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.teleopContrNode.compute_min_dist" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Compute the min distance of the robot from the walls and inser</dt><dd><ul class="simple">
+<li><p>first element -&gt; right corner</p></li>
+<li><p>second element -&gt; front</p></li>
+<li><p>third element -&gt; left corner</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ranges</strong> (<em>double</em>) – contains values of the LaserScan</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>contains the three min distance of the robot from the wall</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>distance(double)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -245,8 +300,13 @@ is not reached, so it is canceled and the function returns ‘0’.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="scripts.teleopContrNode.keyboard_remap">
 <span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">keyboard_remap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/teleopContrNode.html#keyboard_remap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.teleopContrNode.keyboard_remap" title="Permalink to this definition"></a></dt>
-<dd><p>Creates two different subscriber to two different topic <code class="docutils literal notranslate"><span class="pre">/remap_cmd_vel</span></code>
-and <code class="docutils literal notranslate"><span class="pre">/scan</span></code></p>
+<dd><dl class="simple">
+<dt>Creates two different subscriber to two different topic:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/remap_cmd_vel</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/scan</span></code></p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py data">
@@ -259,6 +319,12 @@ and <code class="docutils literal notranslate"><span class="pre">/scan</span></c
 <dt class="sig sig-object py" id="scripts.teleopContrNode.min_dist">
 <span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">min_dist</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.5</span></em><a class="headerlink" href="#scripts.teleopContrNode.min_dist" title="Permalink to this definition"></a></dt>
 <dd><p>Minimum possible distance between robots and obstacles</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.teleopContrNode.repost">
+<span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">repost</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">linear:</span>&#160;&#160;&#160; <span class="pre">x:</span> <span class="pre">0</span>&#160;&#160; <span class="pre">y:</span> <span class="pre">0</span>&#160;&#160; <span class="pre">z:</span> <span class="pre">0</span> <span class="pre">angular:</span>&#160;&#160;&#160; <span class="pre">x:</span> <span class="pre">0</span>&#160;&#160; <span class="pre">y:</span> <span class="pre">0</span>&#160;&#160; <span class="pre">z:</span> <span class="pre">0</span></em><a class="headerlink" href="#scripts.teleopContrNode.repost" title="Permalink to this definition"></a></dt>
+<dd><p>Variable for the desired linear and angular velocity of the robot</p>
 </dd></dl>
 
 <dl class="py data">

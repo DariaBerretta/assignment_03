@@ -18,8 +18,8 @@ For each option:
 exist a specific function in which is defined a client to the correct service.
 
 Service:
-	* /reachCoordinateService
-	* /keyboardService
+	* ``/reachCoordinateService``
+	* ``/keyboardService``
 
 """
 

@@ -6,7 +6,16 @@
 	
 .. moduleauthor:: Daria Berretta <daria.berretta@gmail.com>
 
-This node implements the server for the 'reachCoordinateService'
+This node is used to implement the "assisted driving" of the robot. To do
+that it is necessary to remap the topic ``/cmd_val`` used by the node 
+``/teleop_twist_keyboard`` to topic ``/remap_cmd_vel``.
+
+Subscribed Topic:
+	* ``/remap_cmd_val``
+	* ``/scan``
+	
+Publishing Topic:
+	* ``/cmd_vel``
 
 """
 
@@ -22,34 +31,60 @@ from sensor_msgs.msg import LaserScan
 #third element -> left corner
 walls = [False, False, False]
 """If in the vector walls one element is true, the robot can't go in that direction
+
 """
 min_dist = 0.5
 """Minimum possible distance between robots and obstacles
+
 """
 
 linear = Vector3(0, 0, 0)
 """Vector of linear velocities
+
 """
 angular = Vector3(0, 0, 0)
 """Vector of angular velocities
+
 """
 
 repost = Twist(linear, angular)
+"""Variable for the desired linear and angular velocity of the robot
+
+"""
 
 
 def compute_min_dist(ranges):
-	#Compute the min distance of the robot from the walls
-    #first element -> right corner
-    #second element -> front
-    #third element -> left corner
-    distance = [0,0,0]
-    subarrays = [ ranges[0:240], ranges[241:480], ranges[481:721] ]
-    distance = [ min(subarrays[0]), min(subarrays[1]), min(subarrays[2]) ]
-    
-    return distance
+	"""
+	Compute the min distance of the robot from the walls and inser
+		* first element -> right corner
+		* second element -> front
+		* third element -> left corner
+
+	Args:
+		ranges(double): contains values of the LaserScan
+		
+	Returns:
+			distance(double): contains the three min distance of the robot from the wall
+	
+	"""
+	
+	distance = [0,0,0]
+	subarrays = [ ranges[0:240], ranges[241:480], ranges[481:721] ]
+	distance = [ min(subarrays[0]), min(subarrays[1]), min(subarrays[2]) ]
+	return distance
         
   
 def callback_scan(data):
+	"""
+	In this function, the variable repost is redefined if the robot has 
+	to avoid a wall.
+	To do that is checked if all elements of the vector distance are < 
+	of the variable min_dist.
+	
+	Args:
+		data(Twist): contains linear and angular velocities
+		
+	"""
 	#Eventually redefine repost if the robot have to avoid a wall
 	global repost
 	global walls
@@ -89,7 +124,7 @@ def callback_remap(data):
 	"""
 	Copy the variable data on the global variable repost
 	
-	Args
+	Args:
 		data(Twist): contains linear and angular velocities
 		
 	"""
@@ -103,8 +138,9 @@ def callback_remap(data):
 
 def keyboard_remap():
 	"""
-	Creates two different subscriber to two different topic ``/remap_cmd_vel`` 
-	and ``/scan``
+	Creates two different subscriber to two different topic:
+		* ``/remap_cmd_vel`` 
+		* ``/scan``
 	
 	"""
 	

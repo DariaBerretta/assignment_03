@@ -70,7 +70,16 @@
 <span class="sd">	</span>
 <span class="sd">.. moduleauthor:: Daria Berretta &lt;daria.berretta@gmail.com&gt;</span>
 
-<span class="sd">This node implements the server for the &#39;reachCoordinateService&#39;</span>
+<span class="sd">This node is used to implement the &quot;assisted driving&quot; of the robot. To do</span>
+<span class="sd">that it is necessary to remap the topic ``/cmd_val`` used by the node </span>
+<span class="sd">``/teleop_twist_keyboard`` to topic ``/remap_cmd_vel``.</span>
+
+<span class="sd">Subscribed Topic:</span>
+<span class="sd">	* ``/remap_cmd_val``</span>
+<span class="sd">	* ``/scan``</span>
+<span class="sd">	</span>
+<span class="sd">Publishing Topic:</span>
+<span class="sd">	* ``/cmd_vel``</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -86,34 +95,60 @@
 <span class="c1">#third element -&gt; left corner</span>
 <span class="n">walls</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
 <span class="sd">&quot;&quot;&quot;If in the vector walls one element is true, the robot can&#39;t go in that direction</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="n">min_dist</span> <span class="o">=</span> <span class="mf">0.5</span>
 <span class="sd">&quot;&quot;&quot;Minimum possible distance between robots and obstacles</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="n">linear</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="sd">&quot;&quot;&quot;Vector of linear velocities</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="n">angular</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="sd">&quot;&quot;&quot;Vector of angular velocities</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="n">repost</span> <span class="o">=</span> <span class="n">Twist</span><span class="p">(</span><span class="n">linear</span><span class="p">,</span> <span class="n">angular</span><span class="p">)</span>
+<span class="sd">&quot;&quot;&quot;Variable for the desired linear and angular velocity of the robot</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
 
 
-<span class="k">def</span> <span class="nf">compute_min_dist</span><span class="p">(</span><span class="n">ranges</span><span class="p">):</span>
-	<span class="c1">#Compute the min distance of the robot from the walls</span>
-    <span class="c1">#first element -&gt; right corner</span>
-    <span class="c1">#second element -&gt; front</span>
-    <span class="c1">#third element -&gt; left corner</span>
-    <span class="n">distance</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">subarrays</span> <span class="o">=</span> <span class="p">[</span> <span class="n">ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">240</span><span class="p">],</span> <span class="n">ranges</span><span class="p">[</span><span class="mi">241</span><span class="p">:</span><span class="mi">480</span><span class="p">],</span> <span class="n">ranges</span><span class="p">[</span><span class="mi">481</span><span class="p">:</span><span class="mi">721</span><span class="p">]</span> <span class="p">]</span>
-    <span class="n">distance</span> <span class="o">=</span> <span class="p">[</span> <span class="nb">min</span><span class="p">(</span><span class="n">subarrays</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">min</span><span class="p">(</span><span class="n">subarrays</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">min</span><span class="p">(</span><span class="n">subarrays</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="p">]</span>
-    
-    <span class="k">return</span> <span class="n">distance</span>
+<div class="viewcode-block" id="compute_min_dist"><a class="viewcode-back" href="../../index.html#scripts.teleopContrNode.compute_min_dist">[docs]</a><span class="k">def</span> <span class="nf">compute_min_dist</span><span class="p">(</span><span class="n">ranges</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Compute the min distance of the robot from the walls and inser</span>
+<span class="sd">		* first element -&gt; right corner</span>
+<span class="sd">		* second element -&gt; front</span>
+<span class="sd">		* third element -&gt; left corner</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		ranges(double): contains values of the LaserScan</span>
+<span class="sd">		</span>
+<span class="sd">	Returns:</span>
+<span class="sd">			distance(double): contains the three min distance of the robot from the wall</span>
+<span class="sd">	</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	
+	<span class="n">distance</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+	<span class="n">subarrays</span> <span class="o">=</span> <span class="p">[</span> <span class="n">ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">240</span><span class="p">],</span> <span class="n">ranges</span><span class="p">[</span><span class="mi">241</span><span class="p">:</span><span class="mi">480</span><span class="p">],</span> <span class="n">ranges</span><span class="p">[</span><span class="mi">481</span><span class="p">:</span><span class="mi">721</span><span class="p">]</span> <span class="p">]</span>
+	<span class="n">distance</span> <span class="o">=</span> <span class="p">[</span> <span class="nb">min</span><span class="p">(</span><span class="n">subarrays</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">min</span><span class="p">(</span><span class="n">subarrays</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">min</span><span class="p">(</span><span class="n">subarrays</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="p">]</span>
+	<span class="k">return</span> <span class="n">distance</span></div>
         
   
-<span class="k">def</span> <span class="nf">callback_scan</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="callback_scan"><a class="viewcode-back" href="../../index.html#scripts.teleopContrNode.callback_scan">[docs]</a><span class="k">def</span> <span class="nf">callback_scan</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	In this function, the variable repost is redefined if the robot has </span>
+<span class="sd">	to avoid a wall.</span>
+<span class="sd">	To do that is checked if all elements of the vector distance are &lt; </span>
+<span class="sd">	of the variable min_dist.</span>
+<span class="sd">	</span>
+<span class="sd">	Args:</span>
+<span class="sd">		data(Twist): contains linear and angular velocities</span>
+<span class="sd">		</span>
+<span class="sd">	&quot;&quot;&quot;</span>
 	<span class="c1">#Eventually redefine repost if the robot have to avoid a wall</span>
 	<span class="k">global</span> <span class="n">repost</span>
 	<span class="k">global</span> <span class="n">walls</span>
@@ -147,13 +182,13 @@
 			<span class="n">repost</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="mi">0</span> 
 	
 	<span class="c1">#pubblic on topic cmd_vel</span>
-	<span class="n">pub</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">repost</span><span class="p">)</span>
+	<span class="n">pub</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">repost</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="callback_remap"><a class="viewcode-back" href="../../index.html#scripts.teleopContrNode.callback_remap">[docs]</a><span class="k">def</span> <span class="nf">callback_remap</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Copy the variable data on the global variable repost</span>
 <span class="sd">	</span>
-<span class="sd">	Args</span>
+<span class="sd">	Args:</span>
 <span class="sd">		data(Twist): contains linear and angular velocities</span>
 <span class="sd">		</span>
 <span class="sd">	&quot;&quot;&quot;</span>
@@ -167,8 +202,9 @@
 
 <div class="viewcode-block" id="keyboard_remap"><a class="viewcode-back" href="../../index.html#scripts.teleopContrNode.keyboard_remap">[docs]</a><span class="k">def</span> <span class="nf">keyboard_remap</span><span class="p">():</span>
 	<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">	Creates two different subscriber to two different topic ``/remap_cmd_vel`` </span>
-<span class="sd">	and ``/scan``</span>
+<span class="sd">	Creates two different subscriber to two different topic:</span>
+<span class="sd">		* ``/remap_cmd_vel`` </span>
+<span class="sd">		* ``/scan``</span>
 <span class="sd">	</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 	

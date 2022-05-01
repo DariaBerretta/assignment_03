@@ -70,10 +70,10 @@
 <span class="sd">	</span>
 <span class="sd">.. moduleauthor:: Daria Berretta &lt;daria.berretta@gmail.com&gt;</span>
 
-<span class="sd">This node implements the server for the &#39;keyboardService&#39;</span>
+<span class="sd">This node implements the server for the ``keyBoardService``</span>
 
-<span class="sd">Service:</span>
-<span class="sd">	/keyboardService</span>
+<span class="sd">Implemented Service:</span>
+<span class="sd">	* ``/keyBoardService``</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -86,10 +86,12 @@
 <span class="sd">	This function read the request of the user and implement the correct </span>
 <span class="sd">	actions.</span>
 <span class="sd">	</span>
+<span class="sd">	If ``req.action == 0`` an os call is made to start the ``teleope_twist_keybord``</span>
+<span class="sd">	node, otherwise if ``req.action == 1`` an os call is made to launch the </span>
+<span class="sd">	``option3.launch``</span>
+<span class="sd">	</span>
 <span class="sd">	Args:</span>
-<span class="sd">		req (int):	0 -&gt; means that the user want to ride the robot without help</span>
-<span class="sd">		</span>
-<span class="sd">					1 -&gt; means that the user want to ride the robor with help</span>
+<span class="sd">		req(int):0 means that the user want to ride the robot without help, 1 means that the user want to ride the robor with help</span>
 <span class="sd">					</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="c1">#req.action = 0 -&gt; means that the user want to ride the robot without help</span>
@@ -108,7 +110,7 @@
 
 <div class="viewcode-block" id="teleop_server"><a class="viewcode-back" href="../../index.html#scripts.teleopNode.teleop_server">[docs]</a><span class="k">def</span> <span class="nf">teleop_server</span><span class="p">():</span>
 	<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">	This function crate the server for the ``keyBoardService``</span>
+<span class="sd">	This function crates the server for the ``keyBoardService``</span>
 <span class="sd">	</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="c1">#Creation of the server for the keyboardService</span>

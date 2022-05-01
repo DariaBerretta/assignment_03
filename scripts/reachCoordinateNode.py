@@ -10,11 +10,11 @@ This node implements the server for the "reachCoordinateService".
 It uses the function "reachCoordinate_handler" to read the request made by the user,
 creates a SimpleCLient to the "MoveBaseAction" and set the specific position goal for the robot.
 
-Implement service:
-	* /reachCoordinateService
+Implemented service:
+	* ``/reachCoordinateService``
 
 ActionClient:
-	* /move_base
+	* ``/move_base``
 
 """
 
@@ -77,7 +77,7 @@ def reachCoordinate_handler(req):
 
 def reachCoordinate_server():
 	"""
-	In this function is simply defined a server for the ``reachCoordinateService``
+	In this function is simply defined a server for the ``/reachCoordinateService``
 	
 	"""
 	#define a server for the reachCoordinateService
